@@ -32,9 +32,9 @@ beforeEach(async () => {
 });
 
 describe('Product API Tests', () => {
-    describe('GET /api/products', () => {
+    describe('GET /products', () => {
         it('should return empty array when no products exist', async () => {
-            const response = await request(app).get('/api/products');
+            const response = await request(app).get('/products');
             expect(response.status).toBe(200);
             expect(response.body).toEqual([]);
         });
@@ -47,14 +47,14 @@ describe('Product API Tests', () => {
                 ownerId: userId
             });
 
-            const response = await request(app).get('/api/products');
+            const response = await request(app).get('/products');
             expect(response.status).toBe(200);
             expect(response.body.length).toBe(1);
             expect(response.body[0].title).toBe(testProduct.title);
         });
     });
 
-    describe('POST /api/products', () => {
+    describe('POST /products', () => {
         it('should create a new product with valid token', async () => {
             const token = generateTestToken();
             const productData = {
@@ -64,7 +64,7 @@ describe('Product API Tests', () => {
             };
 
             const response = await request(app)
-                .post('/api/products')
+                .post('/products')
                 .set('Authorization', `Bearer ${token}`)
                 .send(productData);
 
@@ -75,7 +75,7 @@ describe('Product API Tests', () => {
 
         it('should reject creation without token', async () => {
             const response = await request(app)
-                .post('/api/products')
+                .post('/products')
                 .send({
                     title: 'New Product',
                     description: 'New Description',
@@ -86,7 +86,7 @@ describe('Product API Tests', () => {
         });
     });
 
-    describe('PUT /api/products/:id', () => {
+    describe('PUT /products/:id', () => {
         it('should update product if owner', async () => {
             const token = generateTestToken();
             const product = await Product.create({
@@ -97,7 +97,7 @@ describe('Product API Tests', () => {
             });
 
             const response = await request(app)
-                .put(`/api/products/${product._id}`)
+                .put(`/products/${product._id}`)
                 .set('Authorization', `Bearer ${token}`)
                 .send({
                     title: 'Updated Title',
@@ -124,7 +124,7 @@ describe('Product API Tests', () => {
             });
 
             const response = await request(app)
-                .put(`/api/products/${product._id}`)
+                .put(`/products/${product._id}`)
                 .set('Authorization', `Bearer ${wrongToken}`)
                 .send({
                     title: 'Updated Title'
@@ -134,7 +134,7 @@ describe('Product API Tests', () => {
         });
     });
 
-    describe('DELETE /api/products/:id', () => {
+    describe('DELETE /products/:id', () => {
         it('should delete product if owner', async () => {
             const token = generateTestToken();
             const product = await Product.create({
@@ -145,7 +145,7 @@ describe('Product API Tests', () => {
             });
 
             const response = await request(app)
-                .delete(`/api/products/${product._id}`)
+                .delete(`/products/${product._id}`)
                 .set('Authorization', `Bearer ${token}`);
 
             expect(response.status).toBe(200);
@@ -168,7 +168,7 @@ describe('Product API Tests', () => {
             });
 
             const response = await request(app)
-                .delete(`/api/products/${product._id}`)
+                .delete(`/products/${product._id}`)
                 .set('Authorization', `Bearer ${wrongToken}`);
 
             expect(response.status).toBe(403);
