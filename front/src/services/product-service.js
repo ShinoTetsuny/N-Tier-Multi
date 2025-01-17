@@ -30,6 +30,8 @@ class ProductService {
 
 	async updateProduct(id, productData) {
 		try {
+			console.log("id", id);
+			console.log("productData", productData);
 			const response = await productAPI.update(id, productData);
 			return response.data;
 		} catch (error) {

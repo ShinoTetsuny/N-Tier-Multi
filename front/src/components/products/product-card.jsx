@@ -9,8 +9,9 @@ import {
 } from "@/components/ui/card";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { ShoppingBag, X } from "lucide-react";
+import { ShoppingBag, X, Pencil } from "lucide-react";
 import { productService } from "@/services/product-service";
+import EditProductForm from "../forms/edit-product-form";
 
 const ProductImage = ({ image, title }) => (
 	<Image
@@ -58,10 +59,22 @@ const DeleteButton = ({ productId }) => {
 	);
 };
 
+{
+	/* <Button
+variant="ghost"
+size="icon"
+className="absolute right-12 top-2 h-8 w-8"
+onClick={handleEdit}
+>
+<Pencil className="h-4 w-4" />
+</Button> */
+}
+
 const ProductCard = ({ product }) => {
 	return (
 		<Card key={product.title} className="flex flex-col relative">
-			<DeleteButton productId={product.id} />
+			<DeleteButton productId={product._id} />
+			<EditProductForm product={product} />
 			<CardHeader>
 				<ProductInfo title={product.title} price={product.price} />
 			</CardHeader>

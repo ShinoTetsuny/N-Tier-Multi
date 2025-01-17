@@ -19,14 +19,15 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { productService } from "@/services/product-service";
+import { Pencil } from "lucide-react";
 
-const CreateProductForm = () => {
+const EditProductForm = ({ product }) => {
 	const [open, setOpen] = useState(false);
 	const form = useForm({
 		defaultValues: {
-			title: "",
-			price: "",
-			description: "",
+			title: product.title,
+			price: product.price,
+			description: product.description,
 		},
 	});
 
@@ -37,7 +38,9 @@ const CreateProductForm = () => {
 				price: parseFloat(data.price),
 			};
 
-			await productService.createProduct(formattedData);
+			console.log("formattedData", formattedData);
+
+			await productService.updateProduct(product._id, formattedData);
 			setOpen(false);
 			form.reset();
 		} catch (error) {
@@ -48,7 +51,13 @@ const CreateProductForm = () => {
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger asChild>
-				<Button variant="default">Ajouter un produit</Button>
+				<Button
+					variant="ghost"
+					size="icon"
+					className="absolute right-12 top-2 h-8 w-8"
+				>
+					<Pencil className="h-4 w-4" />
+				</Button>
 			</DialogTrigger>
 			<DialogContent className="sm:max-w-[425px]">
 				<DialogHeader>
@@ -124,7 +133,7 @@ const CreateProductForm = () => {
 							>
 								Annuler
 							</Button>
-							<Button type="submit">Créer</Button>
+							<Button type="submit">Modifier</Button>
 						</div>
 					</form>
 				</Form>
@@ -133,4 +142,4 @@ const CreateProductForm = () => {
 	);
 };
 
-export default CreateProductForm;
+export default EditProductForm;

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const TOKEN =
-	"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Nzg5MTdjMDkyNjU2ZmMxZjFmNzc0NmQiLCJlbWFpbCI6InRlc3RAZXhhbXBsZS5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTczNzAzNzc2MCwiZXhwIjoxNzM3MTI0MTYwfQ.3hYhQB_uAz0Sh42lVZS8nB_zvB1vGzxDnS2-YDwwpJ0";
+	"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzhhMWE2M2YwNWY0NDQ4ZDlkNjUwZWMiLCJlbWFpbCI6InRlc3RAZXhhbXBsZS5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTczNzEwMzk3MSwiZXhwIjoxNzM3MTkwMzcxfQ.r1i8M1YnuJH8EV0pLKqqhyhlga_KnmtPAUGA8hqR5OY";
 
 const http = axios.create({
 	baseURL: process.env.NEXT_APP_API_URL || "http://localhost:3000",
@@ -20,7 +20,7 @@ http.interceptors.request.use(
 		}
 		return config;
 	},
-	(error) => {
+        (error) => {
 		return Promise.reject(error);
 	}
 );
