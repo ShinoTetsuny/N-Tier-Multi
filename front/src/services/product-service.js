@@ -47,26 +47,6 @@ class ProductService {
 			throw new Error("Impossible de supprimer le produit");
 		}
 	}
-
-	async searchProducts(query) {
-		try {
-			const response = await productAPI.search(query);
-			return response.data;
-		} catch (error) {
-			throw new Error("Erreur lors de la recherche de produits");
-		}
-	}
-
-	async getProductsByCategory(categoryId) {
-		try {
-			const response = await productAPI.getByCategory(categoryId);
-			return response.data;
-		} catch (error) {
-			throw new Error(
-				"Impossible de récupérer les produits de cette catégorie"
-			);
-		}
-	}
 }
 
 export const productService = new ProductService();

@@ -14,8 +14,6 @@ const Header = () => {
 				<Link href="/shop">
 					<Button variant="ghost">Produits</Button>
 				</Link>
-				<Button variant="ghost">News</Button>
-				<Button variant="ghost">Contact</Button>
 			</nav>
 		</header>
 	);
