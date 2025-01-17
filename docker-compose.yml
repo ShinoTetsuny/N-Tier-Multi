@@ -1,0 +1,123 @@
+services:
+  user-service:
+    build: 
+      context: ./back/services/users
+      dockerfile: Dockerfile
+    env_file:
+      - ./back/services/users/.env
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    networks:
+      - backend-db
+      - gateway-backend
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3003/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+    restart: unless-stopped
+  
+  product-service:
+    image: node:18
+    volumes:
+      - ./back/services/products:/app
+    working_dir: /app
+    command: npm start
+    depends_on:
+      - mongodb
+      - redis
+    networks:
+      - backend-db
+      - gateway-backend
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017
+      - NODE_ENV=development
+      - JWT_SECRET=your_jwt_secret_key_here
+      - REDIS_URL=redis://redis:6379
+    restart: unless-stopped
+  
+  news-service:
+    image: node:18
+    volumes:
+      - ./back/services/news:/app
+    working_dir: /app
+    command: npm start
+    depends_on:
+      - mongodb
+      - redis
+    networks:
+      - backend-db
+      - gateway-backend
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017
+      - NODE_ENV=development
+      - JWT_SECRET=your_jwt_secret_key_here
+    restart: unless-stopped
+  
+  redis:
+    image: redis:alpine
+    networks:
+      - backend-db
+    restart: unless-stopped
+
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - backend-db
+    environment:
+      - MONGO_INITDB_DATABASE=user_management
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    restart: unless-stopped
+
+  gateway:
+    image: node:18
+    volumes:
+      - ./back/gateway:/app
+    working_dir: /app
+    command: npm start
+    ports:
+      - "3000:3000"
+    depends_on:
+      - product-service
+      - user-service
+      - news-service
+    networks:
+      - frontend-gateway
+      - gateway-backend
+    restart: unless-stopped
+  
+  frontend:
+    image: node:18
+    volumes:
+      - ./front:/app
+    working_dir: /app
+    command: npm run dev
+    ports:
+      - "3030:3030"
+    depends_on:
+      - gateway
+    networks:
+      - frontend-gateway
+    environment:
+      - WDS_SOCKET_PORT=0
+    restart: unless-stopped
+
+networks:
+  backend-db:
+  gateway-backend:
+  frontend-gateway:
+
+volumes:
+  mongodb_data:
+    driver: local
