@@ -9,11 +9,13 @@ import UpdateNewsForm from "../forms/update-news-form";
 import { newsService } from "@/services/news-service";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
+import { useNews } from "@/store/news-ctx";
 
 const DeleteButton = ({ newsId }) => {
+	const { deleteNews } = useNews();
 	const handleDelete = async () => {
 		try {
-			await newsService.deleteNews(newsId);
+			await deleteNews(newsId);
 		} catch (error) {
 			console.error("Error deleting product:", error);
 		}

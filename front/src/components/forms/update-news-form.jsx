@@ -18,11 +18,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { newsService } from "@/services/news-service";
 import { Pencil } from "lucide-react";
+import { useNews } from "@/store/news-ctx";
 
 const UpdateNewsForm = ({ news }) => {
 	const [open, setOpen] = useState(false);
+	const { updateNews } = useNews();
 	const form = useForm({
 		defaultValues: {
 			title: news.title,
@@ -32,7 +33,7 @@ const UpdateNewsForm = ({ news }) => {
 
 	const onSubmit = async (data) => {
 		try {
-			await newsService.updateNews(news._id, data);
+			await updateNews(news._id, data);
 			setOpen(false);
 			form.reset();
 		} catch (error) {

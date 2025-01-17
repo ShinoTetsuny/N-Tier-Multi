@@ -3,7 +3,7 @@ import "./globals.css";
 import Header from "@/components/global/header";
 import Footer from "@/components/global/footer";
 import { ProductProvider } from "@/store/product-ctx";
-
+import { NewsProvider } from "@/store/news-ctx";
 const geistSans = Geist({
 	variable: "--font-geist-sans",
 	subsets: ["latin"],
@@ -21,16 +21,18 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
 	return (
-		<ProductProvider>
-			<html lang="en">
-				<body
-					className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-				>
-					<Header />
-					{children}
-					<Footer />
-				</body>
-			</html>
-		</ProductProvider>
+		<NewsProvider>
+			<ProductProvider>
+				<html lang="en">
+					<body
+						className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+					>
+						<Header />
+						{children}
+						<Footer />
+					</body>
+				</html>
+			</ProductProvider>
+		</NewsProvider>
 	);
 }
