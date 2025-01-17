@@ -1,15 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { productService } from "@/services/product-service";
 import ProductCard from "@/components/products/product-card";
 import CreateProductForm from "@/components/forms/create-product-form";
+import { useProducts } from "@/store/product-ctx";
 const Shop = () => {
-	const [products, setProducts] = useState([]);
-
-	useEffect(() => {
-		productService.getAllProducts().then((data) => setProducts(data));
-	}, []);
+	const { products } = useProducts();
 
 	return (
 		<section className="w-full py-12 md:py-24 lg:py-32">

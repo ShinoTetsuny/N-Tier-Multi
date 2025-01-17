@@ -20,9 +20,11 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { productService } from "@/services/product-service";
 import { Pencil } from "lucide-react";
+import { useProducts } from "@/store/product-ctx";
 
 const EditProductForm = ({ product }) => {
 	const [open, setOpen] = useState(false);
+	const { updateProduct } = useProducts();
 	const form = useForm({
 		defaultValues: {
 			title: product.title,
@@ -40,7 +42,7 @@ const EditProductForm = ({ product }) => {
 
 			console.log("formattedData", formattedData);
 
-			await productService.updateProduct(product._id, formattedData);
+			await updateProduct(product._id, formattedData);
 			setOpen(false);
 			form.reset();
 		} catch (error) {
