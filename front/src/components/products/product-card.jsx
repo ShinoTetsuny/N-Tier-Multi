@@ -7,21 +7,11 @@ import {
 	CardContent,
 	CardFooter,
 } from "@/components/ui/card";
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ShoppingBag, X, Pencil } from "lucide-react";
 import { productService } from "@/services/product-service";
 import EditProductForm from "../forms/edit-product-form";
-
-const ProductImage = ({ image, title }) => (
-	<Image
-		src={image || "/placeholder.svg"}
-		alt={title}
-		width={300}
-		height={200}
-		className="object-cover w-full h-48 rounded-t-lg"
-	/>
-);
+import { useProducts } from "@/store/product-ctx";
 
 const ProductInfo = ({ title, price }) => (
 	<>
@@ -39,9 +29,10 @@ const BuyButton = () => (
 );
 
 const DeleteButton = ({ productId }) => {
+	const { deleteProduct } = useProducts();
 	const handleDelete = async () => {
 		try {
-			await productService.deleteProduct(productId);
+			await deleteProduct(productId);
 		} catch (error) {
 			console.error("Error deleting product:", error);
 		}

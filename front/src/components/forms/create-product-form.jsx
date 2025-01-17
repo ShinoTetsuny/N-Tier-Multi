@@ -18,9 +18,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { productService } from "@/services/product-service";
+import { useProducts } from "@/store/product-ctx";
 
 const CreateProductForm = () => {
+	const { addProduct } = useProducts();
 	const [open, setOpen] = useState(false);
 	const form = useForm({
 		defaultValues: {
@@ -37,7 +38,7 @@ const CreateProductForm = () => {
 				price: parseFloat(data.price),
 			};
 
-			await productService.createProduct(formattedData);
+			await addProduct(formattedData);
 			setOpen(false);
 			form.reset();
 		} catch (error) {
