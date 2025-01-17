@@ -2,9 +2,8 @@
 
 import { Button } from "@/components/ui/button";
 import NewsCard from "@/components/news/news-card";
-import { useState, useEffect } from "react";
-import { newsService } from "@/services/news-service";
 import CreateNewsForm from "@/components/forms/create-news-form";
+import { useNews } from "@/store/news-ctx";
 
 // Section Hero
 const HeroSection = () => (
@@ -51,11 +50,7 @@ const NewsSection = ({ news }) => (
 
 // Composant principal
 export default function LandingPage() {
-	const [news, setNews] = useState([]);
-
-	useEffect(() => {
-		newsService.getAllNews().then((data) => setNews(data));
-	}, []);
+	const { news } = useNews();
 
 	return (
 		<div className="flex flex-col min-h-screen">
