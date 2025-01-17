@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -6,23 +8,11 @@ import {
 	CardTitle,
 	CardDescription,
 } from "@/components/ui/card";
-import ProductCard from "@/components/products/product-card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BookOpen } from "lucide-react";
-import { mockedProducts } from "@/mocked-data/mocked-products";
+
 export default function LandingPage() {
 	return (
 		<div className="flex flex-col min-h-screen">
-			<header className="px-4 lg:px-6 h-14 flex items-center">
-				<BookOpen className="h-6 w-6 mr-2" />
-				<span className="font-bold">CoolStudent</span>
-				<nav className="ml-auto flex gap-4 sm:gap-6">
-					<Button variant="ghost">Accueil</Button>
-					<Button variant="ghost">Produits</Button>
-					<Button variant="ghost">News</Button>
-					<Button variant="ghost">Contact</Button>
-				</nav>
-			</header>
 			<main className="flex-1">
 				<section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-gradient-to-r from-purple-500 to-pink-500">
 					<div className="container px-4 md:px-6">
@@ -41,18 +31,6 @@ export default function LandingPage() {
 							>
 								Commencer
 							</Button>
-						</div>
-					</div>
-				</section>
-				<section className="w-full py-12 md:py-24 lg:py-32">
-					<div className="container px-4 md:px-6">
-						<h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-8">
-							Nos Produits Cool
-						</h2>
-						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-							{mockedProducts.map((product) => (
-								<ProductCard key={product.name} product={product} />
-							))}
 						</div>
 					</div>
 				</section>
